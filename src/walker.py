@@ -11,9 +11,11 @@ def firstMove(): #TODO: IMPLEMENT FIRST MOVE
 class Walker():
 	def __init__(self, startingPos):
 		self.pos = startingPos
-		self.distance = 0
+		self.distance = firstMove()
+		self.prevPos = None
 
 	def move(self):
+		self.prevPos = self.pos
 		direction = uniform(0, 2 * pi)
 		length = getStepLen()
 		self.pos[0] += length * cos(direction)
