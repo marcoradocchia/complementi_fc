@@ -1,11 +1,6 @@
 import math as m
-import matplotlib.ticker as ticker
 import matplotlib.pyplot as plt
 from math import pi, sqrt, exp
-
-xm = 410.13
-sigma = 113.80
-A0 = 2.20
 
 x = [[], []]
 y = [[], []]
