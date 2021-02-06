@@ -1,22 +1,23 @@
 from shape import Shape
 from walker import Walker
-from exitShape import *
 
 def main():
 	myShape = Shape(radius=5, vertsNum=6)
-	startPos = myShape.getStartingPos()
-	myWalker = Walker(startingPos=startPos)
+	myWalker = Walker(shapeVerts=myShape.verts, startingPos=myShape.getStartingPos())
 
 	#GET RID IN THE FINAL VERSION
 	with open('shape.dat', 'w+') as outFile:
 		for vert in myShape.verts:
 			outFile.write('{}, {}\n'.format(vert[0], vert[1]))
 		outFile.write('\n')
-		while True:
+		while True: #walking looper
 			outFile.write('{}, {}\n'.format(myWalker.pos[0], myWalker.pos[1]))
 			myWalker.move()
-			if not checkInside(myWalker.pos, myShape.verts): break
-		intersect() #TODO: IMPLEMENT INTERSECT
+			if not myWalker.checkInside(): break
+
+		#TODO: IMPLEMENT INTERSECTION POINT ON EXIT
+		myWalker.getIntersectionPoint()
+		
 		outFile.write('{}, {}\n'.format(myWalker.pos[0], myWalker.pos[1]))
 
 
