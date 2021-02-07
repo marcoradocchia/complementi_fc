@@ -2,7 +2,7 @@ from shape import Shape
 from walker import Walker
 
 def main():
-	myShape = Shape(radius=5, vertsNum=300)
+	myShape = Shape(radius=5, vertsNum=15)
 	myWalker = Walker(shapeVerts=myShape.verts, startingPos=myShape.getStartingPos())
 
 	#GET RID IN THE FINAL VERSION
@@ -11,6 +11,9 @@ def main():
 			outFile.write('{}, {}\n'.format(vert[0], vert[1]))
 		outFile.write('\n')
 
+		#walking starts
+		outFile.write('{}, {}\n'.format(myWalker.pos[0], myWalker.pos[1]))
+		myWalker.firstMove()
 		while True: #walking looper
 			outFile.write('{}, {}\n'.format(myWalker.pos[0], myWalker.pos[1]))
 			myWalker.move()
@@ -20,7 +23,7 @@ def main():
 				break
 		
 		print('Moves: ', myWalker.moves)
-
+		print('Length: ', myWalker.distance)
 
 if __name__ == '__main__':
 	main()

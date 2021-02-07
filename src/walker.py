@@ -6,16 +6,27 @@ tolerance = 1e-5
 def getStepLen():
 	return normalvariate(mu=1, sigma=0.2)
 
-def firstMove(walker, startingPos): #TODO: IMPLEMENT FIRST MOVE
-	pass
-
 class Walker():
 	def __init__(self, shapeVerts, startingPos):
 		self.shapeVerts = shapeVerts
 		self.pos = startingPos
+		self.prevPos = None
 		self.distance = 0
 		self.moves = 0
-		self.prevPos = None
+
+	def firstMove(self):
+		length = getStepLen()
+		startingPos = list(self.pos)
+		while True:
+			direction = uniform(0, 2 * pi)
+			self.pos[0] += length * cos(direction)
+			self.pos[1] += length * sin(direction)
+			if self.checkInside():
+				self.prevPos = list(self.pos)
+				self.distance += length
+				self.moves += 1
+				return
+			self.pos = list(startingPos)
 
 	def move(self):
 		self.prevPos = list(self.pos)
@@ -23,7 +34,7 @@ class Walker():
 		length = getStepLen()
 		self.pos[0] += length * cos(direction)
 		self.pos[1] += length * sin(direction)
-		self.distance += length
+		self.distance += length #TODO: 
 		self.moves += 1
 
 	def checkInside(self): #uses even-odd rule and returns true if the point's inside, false otherwise
@@ -57,5 +68,4 @@ class Walker():
 				x = x1 + t * (x2 - x1)
 				y = y1 + t * (y2 - y1)
 				self.pos = [x, y]
-				print('INTERSECTION FOUND', i+1)
 				return
