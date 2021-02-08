@@ -4,7 +4,7 @@ from random import uniform, normalvariate
 tolerance = 1e-5
 
 def getStepLen():
-	return normalvariate(mu=1, sigma=0.2)
+	return normalvariate(mu=3, sigma=0.5)
 
 class Walker():
 	def __init__(self, shapeVerts, startingPos):

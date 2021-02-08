@@ -20,5 +20,5 @@ if __name__ == '__main__':
 	stDev = sqrt(stDev / (len(results) - 1)) #corrected standard deviation
 	print("Distanza media percorsa: {meanVal:.3f}\nDeviazione Standard Corretta: {stDevVal:.3f}".format(meanVal = mean, stDevVal = stDev))
 	fig,ax = plt.subplots(1,1)
-	ax.hist(results, bins=getBins(vals=results, binNumber=200))
+	ax.hist(results, bins=getBins(vals=results, binNumber=100))
 	plt.show()
