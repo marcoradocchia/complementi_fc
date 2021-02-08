@@ -2,7 +2,7 @@ from src.simulation import runSim
 from math import sqrt
 
 if __name__ == '__main__':
-	results = runSim(10000)
+	results = runSim(10000000)
 	mean = 0
 	stDev = 0
 	for result in results: mean += result
