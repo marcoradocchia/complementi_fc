@@ -2,7 +2,7 @@ from shape import Shape
 from walker import Walker
 
 def main():
-	myShape = Shape(radius=5, vertsNum=15)
+	myShape = Shape(radius=5, vertsNum=4)
 	myWalker = Walker(shapeVerts=myShape.verts, startingPos=myShape.getStartingPos())
 
 	#GET RID IN THE FINAL VERSION

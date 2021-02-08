@@ -1,4 +1,4 @@
-from math import pi, cos, sin
+from math import pi, cos, sin, sqrt
 from random import uniform, normalvariate
 
 tolerance = 1e-5
@@ -11,19 +11,19 @@ class Walker():
 		self.shapeVerts = shapeVerts
 		self.pos = startingPos
 		self.prevPos = None
+		self.moveLen = None
 		self.distance = 0
 		self.moves = 0
 
 	def firstMove(self):
-		length = getStepLen()
+		self.moveLen = getStepLen()
 		startingPos = list(self.pos)
 		while True:
 			direction = uniform(0, 2 * pi)
-			self.pos[0] += length * cos(direction)
-			self.pos[1] += length * sin(direction)
+			self.pos[0] += self.moveLen * cos(direction)
+			self.pos[1] += self.moveLen * sin(direction)
 			if self.checkInside():
 				self.prevPos = list(self.pos)
-				self.distance += length
 				self.moves += 1
 				return
 			self.pos = list(startingPos)
@@ -31,10 +31,9 @@ class Walker():
 	def move(self):
 		self.prevPos = list(self.pos)
 		direction = uniform(0, 2 * pi)
-		length = getStepLen()
-		self.pos[0] += length * cos(direction)
-		self.pos[1] += length * sin(direction)
-		self.distance += length #TODO: 
+		self.moveLen = getStepLen()
+		self.pos[0] += self.moveLen * cos(direction)
+		self.pos[1] += self.moveLen * sin(direction)
 		self.moves += 1
 
 	def checkInside(self): #uses even-odd rule and returns true if the point's inside, false otherwise
@@ -46,6 +45,7 @@ class Walker():
 		for i in range(len(pts)):
 			if ((pts[i][1] > y) != (pts[j][1] > y)) and (x < pts[i][0] + (pts[j][0] - pts[i][0]) * (y - pts[i][1]) / (pts[j][1] - pts[i][1])):
 				isIn = not isIn
+				self.distance += self.moveLen
 			j = i
 		return isIn
 
@@ -68,4 +68,6 @@ class Walker():
 				x = x1 + t * (x2 - x1)
 				y = y1 + t * (y2 - y1)
 				self.pos = [x, y]
+				exitingLen = sqrt((x - x1)**2 + (y - y1)**2)
+				self.distance += exitingLen
 				return
