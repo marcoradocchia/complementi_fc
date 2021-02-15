@@ -1,22 +1,24 @@
 from math import pi, cos, sin, sqrt
 from random import uniform, normalvariate
 
-tolerance = 1e-5
-
-def getStepLen():
-	return normalvariate(mu=3, sigma=0.5)
 
 class Walker():
-	def __init__(self, shapeVerts, startingPos):
+	def __init__(self, shapeVerts, startingPos, _mu, _sigma):
+		self.tolerance = 1e-5
 		self.shapeVerts = shapeVerts
 		self.pos = startingPos
 		self.prevPos = None
 		self.moveLen = None
 		self.distance = 0
 		self.moves = 0
+		self.mu = _mu
+		self.sigma = _sigma
+
+	def getStepLen(self):
+		return normalvariate(mu=self.mu, sigma=self.sigma)
 
 	def firstMove(self):
-		self.moveLen = getStepLen()
+		self.moveLen = self.getStepLen()
 		startingPos = list(self.pos)
 		while True:
 			direction = uniform(0, 2 * pi)
@@ -31,7 +33,7 @@ class Walker():
 	def move(self):
 		self.prevPos = list(self.pos)
 		direction = uniform(0, 2 * pi)
-		self.moveLen = getStepLen()
+		self.moveLen = self.getStepLen()
 		self.pos[0] += self.moveLen * cos(direction)
 		self.pos[1] += self.moveLen * sin(direction)
 		self.moves += 1
@@ -64,7 +66,7 @@ class Walker():
 			if den == 0: continue
 			t = ((x1 - x3) * (y3 - y4) - (y1 - y3) * (x3 - x4)) / den
 			u = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / den
-			if t > tolerance and t < 1 - tolerance and u > tolerance and u < 1 - tolerance:
+			if t > self.tolerance and t < 1 - self.tolerance and u > self.tolerance and u < 1 - self.tolerance:
 				x = x1 + t * (x2 - x1)
 				y = y1 + t * (y2 - y1)
 				self.pos = [x, y]

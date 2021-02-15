@@ -11,7 +11,7 @@ def getBins(vals, binNumber):
 	return bins
 
 if __name__ == '__main__':
-	results = runSim(10000)
+	results = runSim(_iterations=1000, _rad=31, _verts=600) #rad is expressed in micrometer
 	mean = 0
 	stDev = 0
 	for result in results: mean += result
