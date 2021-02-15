@@ -15,7 +15,9 @@ class Walker():
 		self.sigma = _sigma
 
 	def getStepLen(self):
-		return normalvariate(mu=self.mu, sigma=self.sigma)
+		while True: #can't accept negative values
+			stepLen = normalvariate(mu=self.mu, sigma=self.sigma)
+			if stepLen >= 0: return stepLen
 
 	def firstMove(self):
 		self.moveLen = self.getStepLen()
