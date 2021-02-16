@@ -16,7 +16,7 @@ def getColor(maxDist, thisWalkerDist):
 
 def main(): #runs walkers and plots mapping walk length using alpha channel
 	mu, sigma = getDistributionParameters()
-	fig, walkPath = plt.subplots(1,1)
+	_, walkPath = plt.subplots(1,1)
 	walkersNum = int(input('Number of walkers: '))
 	myShape = Shape(radius=30, vertsNum=400)
 	x = list(); y = list()

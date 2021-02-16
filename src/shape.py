@@ -1,4 +1,4 @@
-from math import pi, sin, cos, acos
+from math import pi, sin, cos, acos, sqrt
 from random import randint, random
 
 def getVerts(radius, vertsNum):
@@ -7,10 +7,7 @@ def getVerts(radius, vertsNum):
 	for index in range(vertsNum):
 		newVert = [radius * cos(index * angStep), radius * sin(index * angStep)]
 		verts.append(newVert)
-	verts.append([radius, 0])
-	with open('shape.dat', 'w+') as shapeFile:
-		for point in verts:
-			shapeFile.write('{}, {}\n'.format(point[0], point[1]))
+	verts.append([float(radius), 0.0])
 	return verts
 
 class Shape:
@@ -18,6 +15,16 @@ class Shape:
 		self.rad = radius
 		self.vertsNum = vertsNum
 		self.verts = getVerts(radius, vertsNum)
+
+	def calcArea(self):
+		area = 0.
+		for index in range(len(self.verts) - 1):
+			area += self.verts[index][0] * self.verts[index + 1][1] - self.verts[index + 1][0] * self.verts[index][1]
+		return area / 2
+
+	def calcPerimeter(self):
+		sideLen = sqrt((self.verts[1][0] - self.verts[0][0])**2 + (self.verts[1][1] - self.verts[0][1])**2)
+		return self.vertsNum * sideLen
 
 	def getStartingPos(self):
 		startingSide = randint(0, self.vertsNum - 1)
