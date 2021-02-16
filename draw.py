@@ -46,7 +46,6 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 
 
 if __name__ == '__main__':
-	print(plt.style.available)
 	plt.style.use('seaborn')
 	rc('font',**{'family':'serif'})
 	params = { 'figure.figsize': (10, 9) }

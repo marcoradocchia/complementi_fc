@@ -14,4 +14,4 @@ def runSim(_iterations, _rad, _verts):
 				myWalker.getIntersection()
 				break
 		results.append(myWalker.distance)
-	return results
+	return results, myShape.calcPerimeter(), myShape.calcArea()

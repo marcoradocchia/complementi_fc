@@ -1,6 +1,7 @@
 from src.simulation import runSim
-from math import sqrt
+from math import sqrt, pi
 from matplotlib import pyplot as plt
+from matplotlib import rc
 
 def getBins(vals, binNumber):
 	minVal = min(vals)
@@ -11,7 +12,7 @@ def getBins(vals, binNumber):
 	return bins
 
 if __name__ == '__main__':
-	results = runSim(_iterations=1000, _rad=31, _verts=600) #rad is expressed in micrometer
+	results, shapeArea, shapePerimeter = runSim(_iterations=1000, _rad=31, _verts=600) #rad is expressed in micrometer
 	mean = 0
 	stDev = 0
 	for result in results: mean += result
@@ -19,6 +20,7 @@ if __name__ == '__main__':
 	for result in results: stDev += (result - mean)**2
 	stDev = sqrt(stDev / (len(results) - 1)) #corrected standard deviation
 	print("Distanza media percorsa: {meanVal:.3f}\nDeviazione Standard Corretta: {stDevVal:.3f}".format(meanVal = mean, stDevVal = stDev))
+	print("Area: {area:.3f}\nPerimetro: {perimeter:.3f}\nValore aspettato: {l:.3f}".format(area=shapeArea, perimeter=shapePerimeter, l=pi * shapeArea / shapePerimeter))
 	fig,ax = plt.subplots(1,1)
 	ax.hist(results, bins=getBins(vals=results, binNumber=100))
 	plt.show()
