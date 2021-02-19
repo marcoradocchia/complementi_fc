@@ -20,7 +20,7 @@ if __name__ == '__main__':
 	for result in results: stDev += (result - mean)**2
 	stDev = sqrt(stDev / (len(results) - 1)) #corrected standard deviation
 	print("Distanza media percorsa: {meanVal:.3f}\nDeviazione Standard Corretta: {stDevVal:.3f}".format(meanVal = mean, stDevVal = stDev))
-	print("Area: {area:.3f}\nPerimetro: {perimeter:.3f}\nValore aspettato: {l:.3f}".format(area=shapeArea, perimeter=shapePerimeter, l=pi * shapeArea / shapePerimeter))
+	print("Area: {area:.3f}\nPerimetro: {perimeter:.3f}".format(area=shapeArea, perimeter=shapePerimeter))
 	fig,ax = plt.subplots(1,1)
 	ax.hist(results, bins=getBins(vals=results, binNumber=100))
 	plt.show()

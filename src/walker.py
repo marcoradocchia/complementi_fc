@@ -1,7 +1,6 @@
 from math import pi, cos, sin, sqrt
 from random import uniform, normalvariate
 
-
 class Walker():
 	def __init__(self, shapeVerts, startingPos, _mu, _sigma):
 		self.tolerance = 1e-5
@@ -56,7 +55,7 @@ class Walker():
 			j = i
 		return isIn
 
-	def getIntersection(self): #not working properly with high number of vertices
+	def getIntersection(self):
 		pts = self.shapeVerts
 		x1 = self.prevPos[0]
 		y1 = self.prevPos[1]

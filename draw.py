@@ -39,7 +39,7 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 	#initializing data arrays
 	allWalkersSteps = list(); walkerDist = list(); walkerMoves = list()
 	maxDist = 0. #"longest distance recorded" variable
-	for _ in range(walkersNum):
+	for index in range(walkersNum):
 		x = list(); y = list()
 		myWalker = Walker(shapeVerts=myShape.verts, startingPos=myShape.getStartingPos(), _mu=mu, _sigma=sigma)
 		x.append(myWalker.pos[0]); y.append(myWalker.pos[1])
@@ -53,12 +53,12 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 				break
 		allWalkersSteps.append([x, y]); walkerDist.append(myWalker.distance); walkerMoves.append(myWalker.moves)
 		if myWalker.distance > maxDist: maxDist = myWalker.distance
+		print('{})	{}: {}	{}: {}'.format(chalk.bold.red(index+1), chalk.bold.green('Moves'), walkerMoves[walk], chalk.bold.blue('Distance'), walkerDist[walk]))
 
 	#plotting each walker path
 	for walk in range(len(allWalkersSteps)):
 		col = getColor(maxDist, walkerDist[walk])
 		walkPath.plot(allWalkersSteps[walk][0], allWalkersSteps[walk][1], color=col)
-		print('{})	{}: {}	{}: {}'.format(chalk.bold.red(walk+1), chalk.bold.green('Moves'), walkerMoves[walk], chalk.bold.blue('Distance'), walkerDist[walk]))
 
 
 if __name__ == '__main__':
