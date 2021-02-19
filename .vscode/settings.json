@@ -17,5 +17,6 @@
 		"pyplot",
 		"scipy",
 		"vals"
-	]
+	],
+	"python.pythonPath": "c:\\program files\\python\\python38\\python.exe"
 }

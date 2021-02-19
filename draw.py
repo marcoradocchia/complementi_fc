@@ -4,14 +4,20 @@ from src.hist import getBins
 from matplotlib import pyplot as plt
 from matplotlib import colors, rcParams, rc
 from sys import exit as sysExit
+from simple_chalk import chalk
 
 def getDistributionParameters():
-	#using gaussian distribution for step lenghts, here it gets mu and sigma
-	print('Using gaussian distribution as step len distribution.')
 	try:
+		#using gaussian distribution for step lenghts, here it gets mu and sigma
+		print('Using gaussian distribution as step len distribution.')
 		mu = float(input('Insert mean parameter [mu]: '))
 		sigma = float(input('Insert standard deviation parameter [sigma]: '))
-		return mu, sigma
+		walkersNum = int(input('Number of walkers: '))
+		_radius = float(input('Shape radius: '))
+		_vertsNum = int(input('Shape vertices number: '))
+		if _vertsNum < 3:
+			sysExit('Vertices number cannot be less than 3')
+		return mu, sigma, walkersNum, _radius, _vertsNum
 	except: sysExit('Error with input parameters')
 
 def getColor(maxDist, thisWalkerDist):
@@ -22,14 +28,8 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 	_, (walkPath, hist) = plt.subplots(1,2)
 
 	#gets input parameters for walkers and shape
-	mu, sigma = getDistributionParameters()
-	try:
-		walkersNum = int(input('Number of walkers: '))
-		_vertsNum = int(input('Shape vertices number: '))
-		if _vertsNum < 3:
-			sysExit('Vertices number cannot be less than 3')
-		myShape = Shape(radius=float(input('Shape radius: ')), vertsNum=_vertsNum)
-	except: sysExit('Error with input parameters')
+	mu, sigma, walkersNum, _radius, _vertsNum = getDistributionParameters()
+	myShape = Shape(radius=_radius, vertsNum=_vertsNum) #initializing shape
 	
 	#plotting shape and walker paths
 	x = list(); y = list()
@@ -53,10 +53,12 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 				break
 		allWalkersSteps.append([x, y]); walkerDist.append(myWalker.distance); walkerMoves.append(myWalker.moves)
 		if myWalker.distance > maxDist: maxDist = myWalker.distance
+
+	#plotting each walker path
 	for walk in range(len(allWalkersSteps)):
 		col = getColor(maxDist, walkerDist[walk])
 		walkPath.plot(allWalkersSteps[walk][0], allWalkersSteps[walk][1], color=col)
-		print('{}.	Moves: {}	Distance: {}'.format(walk+1, walkerMoves[walk], walkerDist[walk]))
+		print('{})	{}: {}	{}: {}'.format(chalk.bold.red(walk+1), chalk.bold.green('Moves'), walkerMoves[walk], chalk.bold.blue('Distance'), walkerDist[walk]))
 
 
 if __name__ == '__main__':
