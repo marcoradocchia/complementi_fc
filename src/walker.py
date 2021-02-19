@@ -19,6 +19,9 @@ class Walker():
 			stepLen = normalvariate(mu=self.mu, sigma=self.sigma)
 			if stepLen >= 0: return stepLen
 
+	def getStepDirection(self):
+		return uniform(0, 2 * pi)
+
 	def firstMove(self):
 		self.moveLen = self.getStepLen()
 		startingPos = list(self.pos)
@@ -34,7 +37,7 @@ class Walker():
 
 	def move(self):
 		self.prevPos = list(self.pos)
-		direction = uniform(0, 2 * pi)
+		direction = self.getStepDirection()
 		self.moveLen = self.getStepLen()
 		self.pos[0] += self.moveLen * cos(direction)
 		self.pos[1] += self.moveLen * sin(direction)
