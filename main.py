@@ -1,33 +1,14 @@
 from src.shape import Shape
 from src.walker import Walker
-from src.hist import getBins
+from src.statsAnalysis import getStats
+from src.getInput import getDistributionParameters
+from src.printGraph import graphWalkers, graphHist
 from matplotlib import pyplot as plt
-from matplotlib import colors, rcParams, rc
-from sys import exit as sysExit
+from matplotlib import rcParams, rc
 from simple_chalk import chalk
 
-def getDistributionParameters():
-	try:
-		#using gaussian distribution for step lenghts, here it gets mu and sigma
-		print('Using gaussian distribution as step len distribution.')
-		mu = float(input('Insert mean parameter [mu]: '))
-		sigma = float(input('Insert standard deviation parameter [sigma]: '))
-		walkersNum = int(input('Number of walkers: '))
-		_radius = float(input('Shape radius: '))
-		if _radius < mu: sysExit('Please, make sure that radius < mu.')
-		_vertsNum = int(input('Shape vertices number: '))
-		if _vertsNum < 3:
-			sysExit('Vertices number cannot be less than 3')
-		return mu, sigma, walkersNum, _radius, _vertsNum
-	except: sysExit('Error with input parameters')
 
-def getColor(maxDist, thisWalkerDist):
-	return colors.to_hex([ 1 - thisWalkerDist / maxDist, 0.2, thisWalkerDist / maxDist, 0.5 ], keep_alpha = True)
-
-def main(): #runs walkers and plots mapping walk length using alpha channel
-	#matplolib pyplot axes variables
-	_, (walkPath, hist) = plt.subplots(1,2)
-
+def main(walkPath): #runs walkers and plots mapping walk length using alpha channel
 	#gets input parameters for walkers and shape
 	mu, sigma, walkersNum, _radius, _vertsNum = getDistributionParameters()
 	myShape = Shape(radius=_radius, vertsNum=_vertsNum) #initializing shape
@@ -39,7 +20,7 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 	walkPath.plot(x, y, color='BLACK')
 	#initializing data arrays
 	allWalkersSteps = list(); walkerDist = list()
-	maxDist = 0. #"longest distance recorded" variable
+	maxDist = 0.0 #"longest distance recorded" variable
 	for index in range(walkersNum):
 		x = list(); y = list()
 		myWalker = Walker(shapeVerts=myShape.verts, startingPos=myShape.getStartingPos(), _mu=mu, _sigma=sigma)
@@ -56,16 +37,18 @@ def main(): #runs walkers and plots mapping walk length using alpha channel
 		if myWalker.distance > maxDist: maxDist = myWalker.distance
 		print('{})	{}: {}	{}: {}'.format(chalk.bold.red(index+1), chalk.bold.green('Moves'), myWalker.moves, chalk.bold.blue('Distance'), myWalker.distance))
 
-	#plotting each walker path
-	for walk in range(len(allWalkersSteps)):
-		col = getColor(maxDist, walkerDist[walk])
-		walkPath.plot(allWalkersSteps[walk][0], allWalkersSteps[walk][1], color=col)
+	print("{intro_text}\n{area_text} {area:.3f}\n{perimeter_text} {perimeter:.3f}".format(intro_text=chalk.bold.redBright('SHAPE DETAILS'), area_text=chalk.bold.magentaBright('Area:'), area=myShape.calcArea(), perimeter_text=chalk.bold.cyan('Perimeter:'), perimeter=myShape.calcPerimeter()))
+	graphWalkers(allWalkersSteps, walkerDist, maxDist, walkPath)
+	return walkerDist
 
 if __name__ == '__main__':
 	plt.style.use('seaborn')
 	rc('font',**{'family':'serif'})
-	main() #main script
+	_, (walkPath, histPlot) = plt.subplots(1,2) # matplolib pyplot axes variables
+	results = main(walkPath) # main script (returns array of walkers path lengths)
+	getStats(results)
+	graphHist(results, histPlot)
 	plt.tight_layout()
 	plt.get_current_fig_manager().full_screen_toggle() # toggle fullscreen mode
-	plt.subplots_adjust(left=0.03, bottom = 0.05, right=0.985, top=0.97)
+	plt.subplots_adjust(left=0.03, bottom = 0.05, right=0.985, top=0.97) # adjusting spacings
 	plt.show()

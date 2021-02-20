@@ -1,2 +1,1 @@
-# complementi_fc
- 
+# Invariance property of diffusive random walks
