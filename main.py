@@ -6,6 +6,7 @@ from src.printGraph import graphWalkers, graphHist
 from matplotlib import pyplot as plt
 from matplotlib import rcParams, rc
 from simple_chalk import chalk
+from math import pi
 
 def main(walkPath, terminalInput): #runs walkers and plots mapping walk length using alpha channel
 	#gets input parameters for walkers and shape
@@ -39,8 +40,9 @@ def main(walkPath, terminalInput): #runs walkers and plots mapping walk length u
 		print('{index}	{moves_text} {moves}	{distance_text} {distance}'.format(index=chalk.bold.redBright(index+1)+chalk.bold.redBright(')'), moves_text=chalk.bold.greenBright('Moves:'), moves=myWalker.moves, distance_text=chalk.bold.blueBright('Distance:'), distance=myWalker.distance))
 
 	print("\n{intro_text}\n{area_text} {area:.3f}\n{perimeter_text} {perimeter:.3f}".format(intro_text=chalk.bold.redBright('=====================SHAPE DETAILS====================='), area_text=chalk.bold.magentaBright('Area:'), area=myShape.calcArea(), perimeter_text=chalk.bold.cyanBright('Perimeter:'), perimeter=myShape.calcPerimeter()))
+	print("{expected_text} {expected:.3f}".format(expected_text=chalk.bold.yellowBright('Expected value:'), expected=pi * myShape.calcArea() / myShape.calcPerimeter()))
 	graphWalkers(allWalkersSteps, walkerDist, maxDist, walkPath)
-	return walkerDist
+	return walkerDist, myShape.rad
 
 if __name__ == '__main__':
 	
@@ -51,8 +53,8 @@ if __name__ == '__main__':
 	# rc('font',**{'family':'serif'})
 	_, (walkPath, histPlot) = plt.subplots(1,2) # matplolib pyplot axes variables
 	
-	results = main(walkPath, terminalInput) # main script (returns array of walkers path lengths)
-	graphHist(results, histPlot, getStats(results))
+	results, shapeRadius = main(walkPath, terminalInput) # main script (returns array of walkers path lengths)
+	graphHist(results, histPlot, getStats(results), shapeRadius)
 	
 	plt.tight_layout(w_pad=1)
 	plt.get_current_fig_manager().full_screen_toggle() # toggle fullscreen mode

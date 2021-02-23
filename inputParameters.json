@@ -1,4 +1,12 @@
 {
-	"shape": { "radius": 50, "vertices": 60 },
-	"walker": { "number": 100, "mu": 10, "sigma": 2 }
+	"shape": {
+		"radius": 10,
+		"vertices": 600
+	},
+
+	"walker": {
+		"number": 1000,
+		"mu": 1,
+		"sigma": 0.5
+	}
 }

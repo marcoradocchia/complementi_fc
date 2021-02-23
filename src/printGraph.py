@@ -10,8 +10,7 @@ def graphWalkers(allWalkersSteps, walkerDist, maxDist, walkPath):
 		col = getColor(maxDist, walkerDist[walk])
 		walkPath.plot(allWalkersSteps[walk][0], allWalkersSteps[walk][1], color=col)
 
-def graphHist(results, histPlot, mean):
-	histPlot.hist(results, bins=100, edgecolor='black', density=True)
-	histPlot.axvline(mean, color='red', label='Mean Path Length')
-	
-#TODO: ajust "range" argument in hist
+def graphHist(results, histPlot, mean, radius):
+	histPlot.hist(results, bins=100, edgecolor='#212121', color='#e28743', alpha=0.9, density=True, range=(0, 3 * radius))
+	histPlot.axvline(mean, color='#212121', label='$<L> = {:.3f}$'.format(mean))
+	histPlot.legend()
