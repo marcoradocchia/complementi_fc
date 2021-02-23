@@ -1,15 +1,17 @@
 from src.shape import Shape
 from src.walker import Walker
 from src.statsAnalysis import getStats
-from src.getInput import getDistributionParameters
+from src.getInput import getDistributionParameters, readInputFile
 from src.printGraph import graphWalkers, graphHist
 from matplotlib import pyplot as plt
 from matplotlib import rcParams, rc
 from simple_chalk import chalk
 
-def main(walkPath): #runs walkers and plots mapping walk length using alpha channel
+def main(walkPath, terminalInput): #runs walkers and plots mapping walk length using alpha channel
 	#gets input parameters for walkers and shape
-	mu, sigma, walkersNum, _radius, _vertsNum = getDistributionParameters()
+	if terminalInput: mu, sigma, walkersNum, _radius, _vertsNum = getDistributionParameters()
+	else: mu, sigma, walkersNum, _radius, _vertsNum = readInputFile()
+	
 	myShape = Shape(radius=_radius, vertsNum=_vertsNum) #initializing shape
 	
 	#plotting shape and walker paths
@@ -41,11 +43,17 @@ def main(walkPath): #runs walkers and plots mapping walk length using alpha chan
 	return walkerDist
 
 if __name__ == '__main__':
+	
+	terminalInput = False
+	if input(chalk.bold.greenBright('Do you want to input parameters from terminal? ') + '(Default is no) [Y/n]: ').lower() == 'y': terminalInput = not terminalInput
+
 	plt.style.use('seaborn')
 	# rc('font',**{'family':'serif'})
 	_, (walkPath, histPlot) = plt.subplots(1,2) # matplolib pyplot axes variables
-	results = main(walkPath) # main script (returns array of walkers path lengths)
+	
+	results = main(walkPath, terminalInput) # main script (returns array of walkers path lengths)
 	graphHist(results, histPlot, getStats(results))
+	
 	plt.tight_layout(w_pad=1)
 	plt.get_current_fig_manager().full_screen_toggle() # toggle fullscreen mode
 	plt.subplots_adjust(left=0.03, bottom = 0.05, right=0.985, top=0.97, wspace=0.06) # adjusting spacings

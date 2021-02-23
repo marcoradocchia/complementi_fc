@@ -1,0 +1,4 @@
+{
+	"shape": { "radius": 50, "vertices": 60 },
+	"walker": { "number": 100, "mu": 10, "sigma": 2 }
+}
