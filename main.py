@@ -40,7 +40,7 @@ def main(walkPath, terminalInput): #runs walkers and plots mapping walk length u
 		print('{index}	{moves_text} {moves}	{distance_text} {distance}'.format(index=chalk.bold.redBright(index+1)+chalk.bold.redBright(')'), moves_text=chalk.bold.greenBright('Moves:'), moves=myWalker.moves, distance_text=chalk.bold.blueBright('Distance:'), distance=myWalker.distance))
 
 	print("\n{intro_text}\n{area_text} {area:.3f}\n{perimeter_text} {perimeter:.3f}".format(intro_text=chalk.bold.redBright('=====================SHAPE DETAILS====================='), area_text=chalk.bold.magentaBright('Area:'), area=myShape.calcArea(), perimeter_text=chalk.bold.cyanBright('Perimeter:'), perimeter=myShape.calcPerimeter()))
-	print("{expected_text} {expected:.3f}".format(expected_text=chalk.bold.yellowBright('Expected value:'), expected=pi * myShape.calcArea() / myShape.calcPerimeter()))
+	print("{theo_text} {theo:.3f}".format(theo_text=chalk.bold.yellowBright('Theoretical value:'), theo=pi * myShape.calcArea() / myShape.calcPerimeter()))
 	graphWalkers(allWalkersSteps, walkerDist, maxDist, walkPath)
 	return walkerDist, myShape.rad
 
